@@ -24,7 +24,22 @@
            // The response object is returned with a status field that lets the app know the current
            // login status of the person. In this case, we're handling the situation where they 
            // have logged in to the app.
-           window.location.pathname = '/stream/';
+           $.ajax({
+             type: "POST",
+             url: '/fbauth/',
+             data: {userid: response.authResponse.userID,
+                    authtoken: response.authResponse.accessToken,
+                    expiry: response.authResponse.expiresIn
+                    },
+             beforeSend: function(xhr){
+               var token = $('meta[name="csrf-token"]').attr('content');
+               xhr.setRequestHeader('X-CSRFToken', token);
+             },
+             success: function (data, textStatus, jqXHR) {
+               console.log(data);
+               window.location.pathname = '/stream/';
+             }
+           });
          } else if (response.status === 'not_authorized') {
            // In this case, the person is logged into Facebook, but not into the app, so we call
            // FB.login() to prompt them to do so. 
@@ -42,7 +57,7 @@
            // dialog right after they log in to Facebook. 
            // The same caveats as above apply to the FB.login() call here.
            FB.login(function (response) {},
-                    {scope: 'publist_actions'});
+                    {scope: 'publish_actions'});
          }
        });
 

@@ -8,8 +8,11 @@ from django.core.context_processors import csrf
 from django.core.exceptions import ObjectDoesNotExist
 
 from web.models import Status
+from web.models import FBAuth
 from web.models import status_to_dict
 from web.forms import StatusForm
+from web.forms import FBAuthForm
+from web.models import auth_to_dict
 
 def home(request):
     """ Simple Hello World View """
@@ -83,4 +86,28 @@ def statuses(request):
         status_list = [status_to_dict(s) for s in statuses]
         return HttpResponse(json.dumps(status_list))
     return None
-    
+
+@require_http_methods(['POST', 'DELETE'])
+def fbauth(request, idfr):
+    if request.method == 'POST':
+        return post_fbauth(request)
+    elif request.method == 'DELETE':
+        return delete_fbauth(request, idfr)
+    return None
+
+def post_fbauth(request):
+    d = {'userid': request.POST.get('userid'),
+         'authtoken': request.POST.get('authtoken'),
+         'expiry': int(request.POST.get('expiry'))}
+    form = FBAuthForm(d)
+    print form.is_valid()
+    if form.is_valid():
+        auth, created = FBAuth.objects.get_or_create(userid=form.cleaned_data['userid'])
+        auth.expiry = form.cleaned_data['expiry']
+        auth.authtoken = form.cleaned_data['authtoken']
+        auth.save()
+        return HttpResponse(json.dumps(auth_to_dict(auth)))
+    return HttpResponse(json.dumps(False))
+
+def delete_fbauth(request, idfr):
+    pass

@@ -7,14 +7,6 @@ class Status(models.Model):
     createtime = models.DateTimeField(auto_now_add=True)
     posted = models.BooleanField(default=False)
 
-def unix_time(dt):
-    epoch = datetime.datetime.utcfromtimestamp(0)
-    delta = dt - epoch
-    return delta.total_seconds()
-
-def unix_time_millis(dt):
-    return unix_time(dt) * 1000
-
 def status_to_dict(status):
     d = {
         'id': status.pk,
@@ -22,5 +14,18 @@ def status_to_dict(status):
         'text': status.text,
         'createtime': status.createtime.isoformat(),
         'expire': (status.createtime + datetime.timedelta(days=1)).isoformat()
+        }
+    return d
+
+class FBAuth(models.Model):
+    userid = models.CharField(max_length=64)
+    authtoken = models.CharField(max_length=255)
+    expiry = models.IntegerField()
+
+def auth_to_dict(auth):
+    d = {
+        'userid': auth.userid,
+        'authtoken': auth.authtoken,
+        'expiry': auth.expiry,
         }
     return d
