@@ -1,8 +1,14 @@
 import os
 
-import json
-with open('/home/dotcloud/environment.json') as f:
-  env = json.load(f)
+if os.path.exists('/home/dotcloud'):
+    import json
+    with open('/home/dotcloud/environment.json') as f:
+        env = json.load(f)
+else:
+    env = {'DOTCLOUD_DB_MYSQL_LOGIN': 'root',
+           'DOTCLOUD_DB_MYSQL_PASSWORD': '',
+           'DOTCLOUD_DB_MYSQL_HOST': '127.0.0.1',
+           'DOTCLOUD_DB_MYSQL_PORT': 3306}
 
 settings_dir = os.path.dirname(__file__)
 PROJECT_ROOT = os.path.abspath(os.path.dirname(settings_dir))
@@ -20,10 +26,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'happydb',
-        'USER': env['DOTCLOUD_DB_SQL_LOGIN'],
-        'PASSWORD': env['DOTCLOUD_DB_SQL_PASSWORD'],
-        'HOST': env['DOTCLOUD_DB_SQL_HOST'],
-        'PORT': int(env['DOTCLOUD_DB_SQL_PORT']),
+        'USER': env['DOTCLOUD_DB_MYSQL_LOGIN'],
+        'PASSWORD': env['DOTCLOUD_DB_MYSQL_PASSWORD'],
+        'HOST': env['DOTCLOUD_DB_MYSQL_HOST'],
+        'PORT': int(env['DOTCLOUD_DB_MYSQL_PORT']),
     }
 }
 
@@ -117,7 +123,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
-    'helloapp',
+    'web',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -125,61 +131,61 @@ INSTALLED_APPS = (
 # the site admins on every HTTP 500 error.
 # See http://docs.djangoproject.com/en/dev/topics/logging for
 # more details on how to customize your logging configuration.
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': True,
-    'formatters': {
-        'verbose': {
-            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
-        },
-        'simple': {
-            'format': '%(levelname)s %(message)s'
-        },
-    },
-    'handlers': {
-        'null': {
-            'level':'DEBUG',
-            'class':'django.utils.log.NullHandler',
-        },
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose'
-        },
-        'log_file': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'formatter': 'verbose',
-            'filename': '/var/log/supervisor/blogapp.log',
-            'maxBytes': 1024*1024*25, # 25 MB
-            'backupCount': 5,
-        },
-        'mail_admins': {
-            'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler'
-        }
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console', 'log_file', 'mail_admins'],
-            'level': 'INFO',
-            'propagate': True,
-        },
-        'django.request': {
-            'handlers': ['console', 'log_file', 'mail_admins'],
-            'level': 'ERROR',
-            'propagate': False,
-        },
-        'django.db.backends': {
-            'handlers': ['console', 'log_file', 'mail_admins'],
-            'level': 'INFO',
-            'propagate': False,
-        },
-        # Catch All Logger -- Captures any other logging
-        '': {
-            'handlers': ['console', 'log_file', 'mail_admins'],
-            'level': 'INFO',
-            'propagate': True,
-        }
-    }
-}
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': True,
+#     'formatters': {
+#         'verbose': {
+#             'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+#         },
+#         'simple': {
+#             'format': '%(levelname)s %(message)s'
+#         },
+#     },
+#     'handlers': {
+#         'null': {
+#             'level':'DEBUG',
+#             'class':'django.utils.log.NullHandler',
+#         },
+#         'console': {
+#             'level': 'DEBUG',
+#             'class': 'logging.StreamHandler',
+#             'formatter': 'verbose'
+#         },
+#         'log_file': {
+#             'level': 'DEBUG',
+#             'class': 'logging.handlers.RotatingFileHandler',
+#             'formatter': 'verbose',
+#             'filename': '/var/log/supervisor/blogapp.log',
+#             'maxBytes': 1024*1024*25, # 25 MB
+#             'backupCount': 5,
+#         },
+#         'mail_admins': {
+#             'level': 'ERROR',
+#             'class': 'django.utils.log.AdminEmailHandler'
+#         }
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['console', 'log_file', 'mail_admins'],
+#             'level': 'INFO',
+#             'propagate': True,
+#         },
+#         'django.request': {
+#             'handlers': ['console', 'log_file', 'mail_admins'],
+#             'level': 'ERROR',
+#             'propagate': False,
+#         },
+#         'django.db.backends': {
+#             'handlers': ['console', 'log_file', 'mail_admins'],
+#             'level': 'INFO',
+#             'propagate': False,
+#         },
+#         # Catch All Logger -- Captures any other logging
+#         '': {
+#             'handlers': ['console', 'log_file', 'mail_admins'],
+#             'level': 'INFO',
+#             'propagate': True,
+#         }
+#     }
+# }
