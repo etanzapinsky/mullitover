@@ -142,14 +142,15 @@ StatusView = Backbone.View.extend({
                         var revContainer = $('<div class="revision-history" />');
                         that.$el.append(revContainer);
                         for (var i = 0; i < collection.models.length; i++) {
+                            if (i !== collection.models.length - 1) {
+                                var connector = $('<span class="glyphicon glyphicon-chevron-down"></span>');
+                                // 20 em is hack again
+                                connector.css('margin-left', '20em');
+                                revContainer.append(connector);
+                            }
+
                             var el = $('<div />');
                             revContainer.append(el);
-
-                            var connector = $('<span class="glyphicon glyphicon-chevron-down"></span>');
-                            // 20 em is hack again
-                            connector.css('margin-left', '20em');
-                            revContainer.append(connector);
-
 
                             var m = collection.models[i];
                             m.set('parent', that);
