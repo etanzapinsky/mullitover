@@ -8,6 +8,6 @@ urlpatterns = patterns('',
     url(r'^stream/$', view='web.views.stream', name='stream'),
     url(r'^status/(?P<idfr>\d*)$', view='web.views.status', name='status'),
     url(r'^statuses/$', view='web.views.statuses', name='statuses'),
-    url(r'^fbauth/(?P<idfr>\d*)$', view='web.views.fbauth', name='fbauth'),
+    url(r'^fbauth/$', view='web.views.post_fbauth', name='post_fbauth'),
     url(r'^admin/', include(admin.site.urls)),
 )

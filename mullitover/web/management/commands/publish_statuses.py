@@ -24,3 +24,5 @@ class Command(BaseCommand):
                 if req.status_code == 200:
                     status.posted = True
                     status.save()
+                else:
+                    print(req.status_code, req.text)

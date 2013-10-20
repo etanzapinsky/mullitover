@@ -87,14 +87,7 @@ def statuses(request):
         return HttpResponse(json.dumps(status_list))
     return None
 
-@require_http_methods(['POST', 'DELETE'])
-def fbauth(request, idfr):
-    if request.method == 'POST':
-        return post_fbauth(request)
-    elif request.method == 'DELETE':
-        return delete_fbauth(request, idfr)
-    return None
-
+@require_http_methods(['POST'])
 def post_fbauth(request):
     d = {'userid': request.POST.get('userid'),
          'authtoken': request.POST.get('authtoken'),
@@ -108,6 +101,3 @@ def post_fbauth(request):
         auth.save()
         return HttpResponse(json.dumps(auth_to_dict(auth)))
     return HttpResponse(json.dumps(False))
-
-def delete_fbauth(request, idfr):
-    pass
