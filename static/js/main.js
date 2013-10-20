@@ -9,10 +9,15 @@
     };
 })();
 
-Post = Backbone.Model.extend({
+Status = Backbone.Model.extend({
     urlRoot: '/status/',
     defaults: {
         text: '',
         userid: '',
     },
+});
+
+Statuses = Backbone.Collection.extend({
+    model: Status,
+    url: '/statuses/',
 });
