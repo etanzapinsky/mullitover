@@ -1,5 +1,26 @@
 body {
+    background-image:url('/static/img/geometry.png');
     background-color: #eee;
+}
+
+h1 {
+    font-family: 'Pacifico', cursive;
+}
+
+#brand {
+    font-family: 'Pacifico', sans-serif;
+}
+
+.panel {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.navbar {
+    font-family: 'Questrial', sans-serif;
+}
+
+h2, h3 {
+    font-family: 'Questrial', sans-serif;
 }
 
 .container {
@@ -10,6 +31,9 @@ body {
     max-width: 600px;
     padding: 15px;
     margin: 0 auto;
+}
+
+.text-center {
     text-align: center;
 }
 

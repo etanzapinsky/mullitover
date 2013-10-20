@@ -60,8 +60,9 @@
     </script>
 
     <div class="container">
-      <div class="center">
+      <div class="center text-center">
         <h1 class="title">Mull It Over</h1>
+        <h3>Pause, Think, Reflect</h3>
         <fb:login-button perms="publish_actions" width="300" max-rows="2"></fb>
       </div>
     </div>

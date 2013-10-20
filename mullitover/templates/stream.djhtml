@@ -4,7 +4,7 @@
 
     <div class="navbar navbar-inverse navbar-static-top">
       <div class="container">
-        <div class="navbar-header">
+        <div class="navbar-header"  id="brand">
           <a class="navbar-brand" href="/">Mull It Over</a>
         </div>
         <div class="collapse navbar-collapse">

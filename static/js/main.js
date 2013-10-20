@@ -78,6 +78,7 @@ StatusView = Backbone.View.extend({
             this.$el.remove();
         }, 
         "click .post": function () {
+            // need to return if too early to post
             // closure crap to have access to "this" inside the FB response
             var f = function (that) {
                 FB.api('/me/feed', 'post', {message: that.model.get('text')}, function(response) {
