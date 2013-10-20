@@ -78,7 +78,6 @@ def delete_status(request, idfr):
 def statuses(request):
     uid = request.GET.get('userid')
     if uid is not None:
-        uid = uid[0]
         statuses = Status.objects.filter(userid=uid)
         status_list = [status_to_dict(s) for s in statuses]
         return HttpResponse(json.dumps(status_list))

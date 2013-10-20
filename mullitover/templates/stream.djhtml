@@ -6,42 +6,15 @@
   <div class="center">
     <h1>Active Posts</h1>
 
-    <div class="panel panel-default">
+    <div class="panel panel-default" id="new-status">
       <div class="panel-body new-post">
         <span class="glyphicon glyphicon-plus"></span>
       </div>
     </div>
 
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <textarea class="panel-content">
-          Basic Panel Content sdkj;fkla djfk asdkj fgkas;glkdfa jgkl;j dfsk;lgj kl;sdfjkhlj skdlfghjkls jdl;kgjsdflkg jsdflkgj kl;sdfjgkl;sdfjgklsdfj gkl; f
-        </textarea>
-      </div>
-      <div class="panel-heading panel-bottom">
-        <button type="button" class="btn btn-danger">Delete</button>
-        <div class="post">
-          <span>8:00</span>
-          <button type="button" class="btn btn-success">Save</button>
-        </div>
-      </div>
-    </div>
+    <div id="statuses">
 
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <div class="panel-content">
-          Basic Panel Content sdkj;fkla djfk asdkj fgkas;glkdfa jgkl;j dfsk;lgj kl;sdfjkhlj skdlfghjkls jdl;kgjsdflkg jsdflkgj kl;sdfjgkl;sdfjgklsdfj gkl; f
-        </div>
-      </div>
-      <div class="panel-heading panel-bottom">
-        <button type="button" class="btn btn-warning">Edit</button>
-        <div class="post">
-          <span>8:00</span>
-          <button type="button" class="btn btn-primary">Post</button>
-        </div>
-      </div>
     </div>
-
   </div>
 </div>
 
