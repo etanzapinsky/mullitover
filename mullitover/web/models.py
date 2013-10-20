@@ -20,7 +20,7 @@ def status_to_dict(status):
 class FBAuth(models.Model):
     userid = models.CharField(max_length=64)
     authtoken = models.CharField(max_length=255)
-    expiry = models.IntegerField()
+    expiry = models.IntegerField(default=0)
 
 def auth_to_dict(auth):
     d = {

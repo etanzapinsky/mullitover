@@ -16,21 +16,19 @@
     </div>
 
 
-<div class="contianer">
-  <div class="center">
-    <h2>Active Statuses</h2>
+    <div class="contianer">
+      <div class="center">
+        <h2>Active Statuses</h2>
 
-    <div class="panel panel-default" id="new-status">
-      <div class="panel-body new-post">
-        <span class="glyphicon glyphicon-plus"></span>
+        <div class="panel panel-default" id="new-status">
+          <div class="panel-body new-post">
+            <span class="glyphicon glyphicon-plus"></span>
+          </div>
+        </div>
+
+        <div id="statuses"></div>
+
       </div>
     </div>
-
-    <div id="statuses"></div>
-
-    <div id="compact"></div>
-
-  </div>
-</div>
-
+    
 {% endblock %}
