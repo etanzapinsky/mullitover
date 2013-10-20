@@ -62,7 +62,7 @@
     <div class="container">
       <div class="center">
         <h1 class="title">Mull It Over</h1>
-        <fb:login-button perms="publish_actions" show-faces="true" width="300" max-rows="1"></fb>
+        <fb:login-button perms="publish_actions" width="300" max-rows="2"></fb>
       </div>
     </div>
 

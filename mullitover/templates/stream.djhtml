@@ -18,7 +18,7 @@
 
 <div class="contianer">
   <div class="center">
-    <h1>Active Posts</h1>
+    <h2>Active Statuses</h2>
 
     <div class="panel panel-default" id="new-status">
       <div class="panel-body new-post">
