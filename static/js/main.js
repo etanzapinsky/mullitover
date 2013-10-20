@@ -10,13 +10,28 @@ var editableTemplate = hereDoc(function() {/*!
           <textarea class="panel-content"><%= text %></textarea>
         </div>
         <div class="panel-heading panel-bottom">
-          <button type="button" class="btn btn-danger delete">Delete</button>
+          <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-danger">Delete</button>
           <button type="button" class="btn btn-info history">Revision History</button>
           <div class="done">
             <button type="button" class="btn btn-success save">Save</button>
           </div>
         </div>
       </div>
+ <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Confirm Delete</h4>
+        </div>
+        <div class="modal-body done">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-danger delete">Delete</button>
+        </div>
+        <p class="clear"></p>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
 */});
 
 var regTemplate = hereDoc(function() {/*!
@@ -103,8 +118,15 @@ StatusView = Backbone.View.extend({
             parent.render();
         },
         "click .delete": function () {
-            this.model.destroy();
-            this.$el.remove();
+            $('#myModal').modal('toggle');
+            // hack hack hack 11th hour
+            function f (that) {
+                setTimeout(function() {
+                    that.model.destroy();
+                    that.$el.remove();                
+                }, 1000);
+            };
+            f (this);
         }, 
         "click .post": function () {
             // subtracting 8 hours to see if we are allowed to post
@@ -140,17 +162,23 @@ StatusView = Backbone.View.extend({
                         $('.revision-history', this.$el).remove();
                         $('.glyphicon-chevron-down').remove();
                         var revContainer = $('<div class="revision-history" />');
+                        if (collection.models.length !== 0) {
+                            var connector = $('<span class="glyphicon glyphicon-chevron-down"></span>');
+                            // 20 em is hack again
+                            connector.css('margin-left', '20em');
+                            that.$el.append(connector);
+                        }
                         that.$el.append(revContainer);
                         for (var i = 0; i < collection.models.length; i++) {
+                            var el = $('<div />');
+                            revContainer.append(el);
+
                             if (i !== collection.models.length - 1) {
                                 var connector = $('<span class="glyphicon glyphicon-chevron-down"></span>');
                                 // 20 em is hack again
                                 connector.css('margin-left', '20em');
                                 revContainer.append(connector);
                             }
-
-                            var el = $('<div />');
-                            revContainer.append(el);
 
                             var m = collection.models[i];
                             m.set('parent', that);
