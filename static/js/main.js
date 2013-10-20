@@ -137,6 +137,8 @@ StatusView = Backbone.View.extend({
                 statuses.fetch({
                     data: {bundle: that.model.get('bundle')},
                     success: function(collection, response, options) {
+                        $('.revision-history', this.$el).remove();
+                        $('.glyphicon-chevron-down').remove();
                         var revContainer = $('<div class="revision-history" />');
                         var connector = $('<span class="glyphicon glyphicon-chevron-down"></span>');
                         // 20 em is hack again
