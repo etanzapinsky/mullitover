@@ -1,0 +1,30 @@
+body {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #eee;
+}
+
+.center {
+    max-width: 600px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.panel-bottom {
+    border-radius: 0px;
+}
+
+.edit {
+    float: right;
+}
+
+.post {
+    display: block;
+    float: right;
+}
+
+textarea.panel-content {
+    width: 100%;
+    max-width: 100%;
+    height: 10em;
+}

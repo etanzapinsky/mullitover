@@ -4,10 +4,11 @@
     <div id="fb-root"></div>
     <script>
      // Additional JS functions here
+     var channelPath = '//' + window.location.host + '/static/channel.html';
      window.fbAsyncInit = function() {
        FB.init({
-         appId      : '497980860308744', // App ID
-         channelUrl : '//www.fblogin-etanz.dotcloud.com/channel.html', // Channel File
+         appId      : '452485954871398', // App ID
+         channelUrl : channelPath, // Channel File
          status     : true, // check login status
          cookie     : true, // enable cookies to allow the server to access the session
          xfbml      : true  // parse XFBML
@@ -56,12 +57,12 @@
      }(document));
     </script>
 
-    <!--
-    Below we include the Login Button social plugin. This button uses the JavaScript SDK to
-    present a graphical Login button that triggers the FB.login() function when clicked.
+    <div class="container">
+      <div class="center">
+        <h1 class="title">Mull It Over</h1>
+        <fb:login-button show-faces="true" width="300" max-rows="1"></fb>
+      </div>
+    </div>
 
-    Learn more about options for the login button plugin:
-    /docs/reference/plugins/login/ -->
 
-    <fb:login-button show-faces="true" width="200" max-rows="1"></fb>fb:login-button>
 {% endblock %}
