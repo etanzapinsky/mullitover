@@ -7,7 +7,7 @@ h1 {
     font-family: 'Pacifico', cursive;
 }
 
-#brand {
+.logo {
     font-family: 'Pacifico', sans-serif;
 }
 
@@ -58,4 +58,18 @@ textarea.panel-content {
 
 #new-status {
     cursor: pointer;
+}
+
+#fb-button {
+    margin: 10px;
+}
+
+.paragraph {
+    font-size: 1.3em;
+    margin: 10px 0;
+}
+
+#plus {
+    /* hack */
+    padding-left: 19em;
 }
