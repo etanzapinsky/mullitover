@@ -12,7 +12,6 @@ var editableTemplate = hereDoc(function() {/*!
         <div class="panel-heading panel-bottom">
           <button type="button" class="btn btn-danger delete">Delete</button>
           <div class="done">
-            <span class="timer"><%= expire %></span>
             <button type="button" class="btn btn-success save">Save</button>
           </div>
         </div>
@@ -27,7 +26,7 @@ var regTemplate = hereDoc(function() {/*!
         <div class="panel-heading panel-bottom">
           <button type="button" class="btn btn-warning edit">Edit</button>
           <div class="done">
-            <span class="timer"><%= expire %></span>
+          <span class="timer"><%= expire %></span>
             <button type="button" class="btn btn-primary post">Post</button>
           </div>
         </div>
@@ -55,6 +54,10 @@ Status = Backbone.Model.extend({
     },
 });
 
+function addHours(date, hours) {
+    return new Date((new Date).getTime() + (hours * 3600000));
+}
+
 Statuses = Backbone.Collection.extend({
     model: Status,
     url: '/statuses/',
@@ -78,12 +81,17 @@ StatusView = Backbone.View.extend({
             this.$el.remove();
         }, 
         "click .post": function () {
-            // need to return if too early to post
+            // subtracting 8 hours to see if we are allowed to post
+            var eightHourPrior = addHours(new Date(), -8)
+            if (new Date(this.model.get('createtime')).getTime() > eightHourPrior.getTime()) {
+                alert("You can't post just yet. You have to wait at least 8 hours since you first drafted the status.");
+                return;
+            }
             // closure crap to have access to "this" inside the FB response
             var f = function (that) {
                 FB.api('/me/feed', 'post', {message: that.model.get('text')}, function(response) {
                     if (!response || response.error) {
-                        alert('Error occured');
+                        console.log(response);
                     } else {
                         that.model.set('posted', true);
                         that.model.save();
