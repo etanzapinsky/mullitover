@@ -81,7 +81,7 @@ def put_status(request, idfr):
 def delete_status(request, idfr):
     try:
         status = Status.objects.get(pk=idfr)
-        status.delete()
+        Status.objects.filter(bundle=status.bundle).delete();
         return HttpResponse(json.dumps(True))
     except ObjectDoesNotExist:
         return None
