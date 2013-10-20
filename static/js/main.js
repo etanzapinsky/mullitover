@@ -51,6 +51,7 @@ Status = Backbone.Model.extend({
         userid: '',
         expire: null,
         posted: false,
+        bundle: null,
     },
 });
 

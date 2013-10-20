@@ -51,24 +51,31 @@ def post_status(request):
     form = StatusForm(json.loads(request.body))
     print form.is_valid()
     if form.is_valid():
+        # two hits to the DB in some cases, but I'm lazy now
         status = Status.objects.create(userid=form.cleaned_data['userid'],
                                        text=form.cleaned_data['text'])
+        status.bundle = status.pk
+        status.createtime = status.initialcreate
+        status.save()
         return HttpResponse(json.dumps(status_to_dict(status)))
     return HttpResponse(json.dumps(False))
 
 def put_status(request, idfr):
-    try:
-        status = Status.objects.get(pk=idfr)
-        form = StatusForm(json.loads(request.body))
-        if form.is_valid():
-            status.userid = form.cleaned_data['userid']
-            status.text = form.cleaned_data['text']
-            status.posted = form.cleaned_data['posted']
-            status.save()
-            return HttpResponse(json.dumps(status_to_dict(status)))
-        return None
-    except ObjectDoesNotExist:
-        return None
+    # data = json.loads(request.body)
+    # be careful of keyerrors
+    form = StatusForm(json.loads(request.body))
+    import pdb; pdb.set_trace()
+    if form.is_valid():
+        # can be sure of at least one bundle
+        bundle_leader = Status.objects.filter(bundle=form.cleaned_data['bundle'])[0]
+        status = Status.objects.create(userid=form.cleaned_data['userid'],
+                                       text=form.cleaned_data['text'],
+                                       posted=form.cleaned_data['posted'],
+                                       bundle=form.cleaned_data['bundle'],
+                                       createtime=bundle_leader.createtime)
+        status.save()
+        return HttpResponse(json.dumps(status_to_dict(status)))
+    return HttpResponse(json.dumps(False))
 
 def delete_status(request, idfr):
     try:
