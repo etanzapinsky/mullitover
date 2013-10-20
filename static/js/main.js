@@ -88,9 +88,11 @@ StatusView = Backbone.View.extend({
     events: {
         "click .save": function() {
             this.template = _.template(regTemplate);
-            this.model.set('text', $('textarea', this.$el)[0].value);
-            this.model.set('userid', userID);
-            this.model.save();
+            if (this.model.get('text') !== $('textarea', this.$el)[0].value) {
+                this.model.set('text', $('textarea', this.$el)[0].value);
+                this.model.set('userid', userID);
+                this.model.save();
+            }
             this.render();
         },
         "click .revert": function() {
@@ -162,6 +164,11 @@ StatusView = Backbone.View.extend({
         this.$el.html(this.template(this.model.attributes));
         // -9 is a massive hack, not in the mood to deal with timezones
         $('.timer').countdown({until: $.countdown.UTCDate(-9, new Date(this.model.get('expire'))), compact: true, format: 'HMS'});
+        // subtracting 8 hours to see if we are allowed to post
+        var eightHourPrior = addHours(new Date(), -8)
+        if (new Date(this.model.get('createtime')).getTime() > eightHourPrior.getTime()) {
+            $('.post', this.$el).attr('disabled', 'disabled');
+        }
         return this;
     }
 });

@@ -101,6 +101,8 @@ def statuses(request):
                 bundles_seen.add(s.bundle)
         return HttpResponse(json.dumps(status_list))
     elif bundle is not None:
+        if bundle == '':
+            return HttpResponse(json.dumps([]))
         statuses = Status.objects.filter(bundle=bundle, posted=False).order_by('-initialcreate')
         status_list = [status_to_dict(s) for s in statuses]
         return HttpResponse(json.dumps(status_list[1:]))

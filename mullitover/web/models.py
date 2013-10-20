@@ -16,7 +16,7 @@ def status_to_dict(status):
         'userid': status.userid,
         'text': status.text,
         'createtime': status.createtime.isoformat(),
-        'expire': (status.createtime + datetime.timedelta(days=1)).isoformat()
+        'expire': (status.createtime + datetime.timedelta(hours=8)).isoformat()
         }
     return d
 
