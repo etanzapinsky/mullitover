@@ -12,9 +12,10 @@
       </div>
     </div>
 
-    <div id="statuses">
+    <div id="statuses"></div>
 
-    </div>
+    <div id="compact"></div>
+
   </div>
 </div>
 

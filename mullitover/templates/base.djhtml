@@ -11,6 +11,7 @@
     <script src="//underscorejs.org/underscore-min.js"></script>
     <script src="//backbonejs.org/backbone-min.js"></script>
 
+    <script src="/static/js/jquery.countdown.min.js"></script>
     <script src="/static/js/main.js"></script>
   </head>
 

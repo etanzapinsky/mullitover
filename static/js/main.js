@@ -1,3 +1,39 @@
+function hereDoc(f) {
+  return f.toString().
+      replace(/^[^\/]+\/\*!?/, '').
+      replace(/\*\/[^\/]+$/, '');
+}
+
+var editableTemplate = hereDoc(function() {/*!
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <textarea class="panel-content"><%= text %></textarea>
+        </div>
+        <div class="panel-heading panel-bottom">
+          <button type="button" class="btn btn-danger delete">Delete</button>
+          <div class="done">
+            <span class="timer"><%= expire %></span>
+            <button type="button" class="btn btn-success save">Save</button>
+          </div>
+        </div>
+      </div>
+*/});
+
+var regTemplate = hereDoc(function() {/*!
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="panel-content"><%= text %></div>
+        </div>
+        <div class="panel-heading panel-bottom">
+          <button type="button" class="btn btn-warning edit">Edit</button>
+          <div class="done">
+            <span class="timer"><%= expire %></span>
+            <button type="button" class="btn btn-primary post">Post</button>
+          </div>
+        </div>
+      </div>
+*/});
+
 (function() {
     var _sync = Backbone.sync;
     Backbone.sync = function(method, model, options){
@@ -14,6 +50,7 @@ Status = Backbone.Model.extend({
     defaults: {
         text: '',
         userid: '',
+        expire: null,
     },
 });
 
@@ -31,6 +68,7 @@ StatusView = Backbone.View.extend({
         "click .save": function() {
             this.template = _.template(regTemplate);
             this.model.set('text', $('textarea', this.$el)[0].value);
+            this.model.set('userid', userID);
             this.model.save();
             this.render();
         },
@@ -51,54 +89,24 @@ StatusView = Backbone.View.extend({
     },
     render: function() {
         this.$el.html(this.template(this.model.attributes));
+        // -9 is a massive hack, not in the mood to deal with timezones
+        $('.timer').countdown({until: $.countdown.UTCDate(-9, new Date(this.model.get('expire'))), compact: true, format: 'HMS'});
         return this;
     }
 });
 
 $(document).ready(function() {
     $('#new-status').click(function() {
-        alert("hi");
+        var el = $('<div />');
+        $('#statuses').prepend(el);
+        var v = new StatusView({model: new Status(), el: el});
+        v.template = _.template(editableTemplate);
+        v.render();
     });
 });
 
-function hereDoc(f) {
-  return f.toString().
-      replace(/^[^\/]+\/\*!?/, '').
-      replace(/\*\/[^\/]+$/, '');
-}
-
-var editableTemplate = hereDoc(function() {/*!
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <textarea class="panel-content"><%= text %></textarea>
-        </div>
-        <div class="panel-heading panel-bottom">
-          <button type="button" class="btn btn-danger delete">Delete</button>
-          <div class="done">
-            <span>8:00</span>
-            <button type="button" class="btn btn-success save">Save</button>
-          </div>
-        </div>
-      </div>
-*/});
-
-var regTemplate = hereDoc(function() {/*!
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <div class="panel-content"><%= text %></div>
-        </div>
-        <div class="panel-heading panel-bottom">
-          <button type="button" class="btn btn-warning edit">Edit</button>
-          <div class="done">
-            <span>8:00</span>
-            <button type="button" class="btn btn-primary post">Post</button>
-          </div>
-        </div>
-      </div>
-*/});
-
-
-
+var userID;
+var statuses = new Statuses();
 var channelPath = '//' + window.location.host + '/static/channel.html';
 window.fbAsyncInit = function() {
     FB.init({
@@ -119,11 +127,11 @@ window.fbAsyncInit = function() {
             // The response object is returned with a status field that lets the app know the current
             // login status of the person. In this case, we're handling the situation where they 
             // have logged in to the app.
-            console.log(response.authResponse.userID);
+            userID = response.authResponse.userID;
+            console.log(userID);
 
-            var statuses = new Statuses();
             statuses.fetch({
-                data: {userid: response.authResponse.userID},
+                data: {userid: userID},
                 success: function(collection, response, options) {
                     for (var i = 0; i < collection.models.length; i++) {
                         var el = $('<div/>');

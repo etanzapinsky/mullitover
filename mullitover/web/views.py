@@ -51,7 +51,7 @@ def post_status(request):
         status = Status.objects.create(userid=form.cleaned_data['userid'],
                                        text=form.cleaned_data['text'])
         return HttpResponse(json.dumps(status_to_dict(status)))
-    return None
+    return HttpResponse(json.dumps(False))
 
 def put_status(request, idfr):
     try:
@@ -78,7 +78,7 @@ def delete_status(request, idfr):
 def statuses(request):
     uid = request.GET.get('userid')
     if uid is not None:
-        statuses = Status.objects.filter(userid=uid)
+        statuses = Status.objects.filter(userid=uid).order_by('-createtime')
         status_list = [status_to_dict(s) for s in statuses]
         return HttpResponse(json.dumps(status_list))
     return None
