@@ -64,7 +64,6 @@ def put_status(request, idfr):
     # data = json.loads(request.body)
     # be careful of keyerrors
     form = StatusForm(json.loads(request.body))
-    import pdb; pdb.set_trace()
     if form.is_valid():
         # can be sure of at least one bundle
         bundle_leader = Status.objects.filter(bundle=form.cleaned_data['bundle'])[0]
@@ -89,8 +88,13 @@ def delete_status(request, idfr):
 def statuses(request):
     uid = request.GET.get('userid')
     if uid is not None:
-        statuses = Status.objects.filter(userid=uid, posted=False).order_by('-createtime')
-        status_list = [status_to_dict(s) for s in statuses]
+        statuses = Status.objects.filter(userid=uid, posted=False).order_by('-initialcreate')
+        bundles_seen = set()
+        status_list = list()
+        for s in statuses:
+            if s.bundle not in bundles_seen:
+                status_list.append(status_to_dict(s))
+                bundles_seen.add(s.bundle)
         return HttpResponse(json.dumps(status_list))
     return None
 
