@@ -5,6 +5,7 @@ class Status(models.Model):
     userid = models.CharField(max_length=64)
     text = models.TextField()
     createtime = models.DateTimeField(auto_now_add=True)
+    posted = models.BooleanField(default=False)
 
 def unix_time(dt):
     epoch = datetime.datetime.utcfromtimestamp(0)

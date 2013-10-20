@@ -60,6 +60,7 @@ def put_status(request, idfr):
         if form.is_valid():
             status.userid = form.cleaned_data['userid']
             status.text = form.cleaned_data['text']
+            status.posted = form.cleaned_data['posted']
             status.save()
             return HttpResponse(json.dumps(status_to_dict(status)))
         return None
@@ -78,7 +79,7 @@ def delete_status(request, idfr):
 def statuses(request):
     uid = request.GET.get('userid')
     if uid is not None:
-        statuses = Status.objects.filter(userid=uid).order_by('-createtime')
+        statuses = Status.objects.filter(userid=uid, posted=False).order_by('-createtime')
         status_list = [status_to_dict(s) for s in statuses]
         return HttpResponse(json.dumps(status_list))
     return None

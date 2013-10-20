@@ -51,6 +51,7 @@ Status = Backbone.Model.extend({
         text: '',
         userid: '',
         expire: null,
+        posted: false,
     },
 });
 
@@ -77,13 +78,19 @@ StatusView = Backbone.View.extend({
             this.$el.remove();
         }, 
         "click .post": function () {
-            FB.api('/me/feed', 'post', {message: this.model.get('text')}, function(response) {
-                if (!response || response.error) {
-                    alert('Error occured');
-                } else {
-                    alert('Post ID: ' + response.id);
-                }
-            });
+            // closure crap to have access to "this" inside the FB response
+            var f = function (that) {
+                FB.api('/me/feed', 'post', {message: that.model.get('text')}, function(response) {
+                    if (!response || response.error) {
+                        alert('Error occured');
+                    } else {
+                        that.model.set('posted', true);
+                        that.model.save();
+                        that.$el.remove();
+                    }
+                });
+            };
+            f(this);
         },
         "click .edit": function() {
             this.template = _.template(editableTemplate);
