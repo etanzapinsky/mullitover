@@ -10,5 +10,6 @@ def status_to_dict(status):
         'id': status.pk,
         'userid': status.userid,
         'text': status.text,
+        'createtime': status.createtime.isoformat(),
         }
     return d

@@ -28,3 +28,7 @@ textarea.panel-content {
 .template {
     display: none;
 }
+
+#new-status {
+    cursor: pointer;
+}
