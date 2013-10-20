@@ -175,7 +175,17 @@ StatusView = Backbone.View.extend({
     render: function() {
         this.$el.html(this.template(this.model.attributes));
         // -9 is a massive hack, not in the mood to deal with timezones
-        $('.timer').countdown({until: $.countdown.UTCDate(-9, new Date(this.model.get('expire'))), compact: true, format: 'HMS'});
+        function f(that) {
+            $('.timer').countdown({
+                until: $.countdown.UTCDate(-9, new Date(that.model.get('expire'))),
+                compact: true,
+                format: 'HMS',
+                onExpiry: function() {
+                    $('.post', that.$el).removeAttr('disabled');
+                }
+            });
+        };
+        f(this);
         // subtracting 8 hours to see if we are allowed to post
         var eightHourPrior = addHours(new Date(), -8)
         if (new Date(this.model.get('createtime')).getTime() > eightHourPrior.getTime()) {
