@@ -73,3 +73,10 @@ textarea.panel-content {
     /* hack */
     padding-left: 19em;
 }
+
+p.clear {
+    clear: both;
+    height: 0;  /* only necessary for IE */
+    margin: 0;
+    padding: 0;    
+}

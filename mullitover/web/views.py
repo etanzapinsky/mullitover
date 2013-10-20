@@ -66,12 +66,14 @@ def put_status(request, idfr):
     form = StatusForm(json.loads(request.body))
     if form.is_valid():
         # can be sure of at least one bundle
-        bundle_leader = Status.objects.filter(bundle=form.cleaned_data['bundle'])[0]
+        bundles = Status.objects.filter(bundle=form.cleaned_data['bundle'])
+        bundle_leader = bundles[0]
         status = Status.objects.create(userid=form.cleaned_data['userid'],
                                        text=form.cleaned_data['text'],
                                        posted=form.cleaned_data['posted'],
                                        bundle=form.cleaned_data['bundle'],
                                        createtime=bundle_leader.createtime)
+        bundles.update(posted=form.cleaned_data['posted'])
         status.save()
         return HttpResponse(json.dumps(status_to_dict(status)))
     return HttpResponse(json.dumps(False))
@@ -87,6 +89,8 @@ def delete_status(request, idfr):
 @require_http_methods(['GET'])
 def statuses(request):
     uid = request.GET.get('userid')
+    bundle = request.GET.get('bundle')
+    
     if uid is not None:
         statuses = Status.objects.filter(userid=uid, posted=False).order_by('-initialcreate')
         bundles_seen = set()
@@ -96,6 +100,11 @@ def statuses(request):
                 status_list.append(status_to_dict(s))
                 bundles_seen.add(s.bundle)
         return HttpResponse(json.dumps(status_list))
+    elif bundle is not None:
+        statuses = Status.objects.filter(bundle=bundle, posted=False).order_by('-initialcreate')
+        status_list = [status_to_dict(s) for s in statuses]
+        return HttpResponse(json.dumps(status_list[1:]))
+
     return None
 
 @require_http_methods(['POST'])

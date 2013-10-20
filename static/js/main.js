@@ -11,6 +11,7 @@ var editableTemplate = hereDoc(function() {/*!
         </div>
         <div class="panel-heading panel-bottom">
           <button type="button" class="btn btn-danger delete">Delete</button>
+          <button type="button" class="btn btn-info history">Revision History</button>
           <div class="done">
             <button type="button" class="btn btn-success save">Save</button>
           </div>
@@ -32,6 +33,21 @@ var regTemplate = hereDoc(function() {/*!
         </div>
       </div>
 */});
+
+var revTemplate = hereDoc(function() {/*!
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="panel-content"><%= text %></div>
+        </div>
+        <div class="panel-heading panel-bottom">
+          <div class="done">
+            <button type="button" class="btn btn-success revert">Revert</button>
+          </div>
+          <p class="clear"></p>
+        </div>
+      </div>
+*/});
+
 
 (function() {
     var _sync = Backbone.sync;
@@ -77,6 +93,13 @@ StatusView = Backbone.View.extend({
             this.model.save();
             this.render();
         },
+        "click .revert": function() {
+            var parent = this.model.get('parent');
+            parent.model.set('text', this.model.get('text'));
+            parent.template = _.template(regTemplate);
+            parent.model.save();
+            parent.render();
+        },
         "click .delete": function () {
             this.model.destroy();
             this.$el.remove();
@@ -105,6 +128,29 @@ StatusView = Backbone.View.extend({
         "click .edit": function() {
             this.template = _.template(editableTemplate);
             this.render();
+        },
+        "click .history": function() {
+            function f(that) {
+                var stats = new Statuses();
+                statuses.fetch({
+                    data: {bundle: that.model.get('bundle')},
+                    success: function(collection, response, options) {
+                        var revContainer = $('<div class="revision-history" />');
+                        that.$el.append(revContainer);
+                        for (var i = 0; i < collection.models.length; i++) {
+                            var el = $('<div />');
+                            revContainer.append(el);
+                            var m = collection.models[i];
+                            m.set('parent', that);
+                            var v = new StatusView({model: m, el: el});
+                            v.template = _.template(revTemplate);
+                            v.render();
+                            $('.panel-bottom', v.$el).css('border-color', '#39b3d7');
+                        }
+                    },
+                });
+            };
+            f(this);
         },
     },
     initialize: function() {

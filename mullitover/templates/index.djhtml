@@ -50,7 +50,7 @@
                  data: {userid: userID},
                  success: function(collection, response, options) {
                    for (var i = 0; i < collection.models.length; i++) {
-                     var el = $('<div/>');
+                     var el = $('<div class="unit" />');
                      $('#statuses').append(el);
                      var v = new StatusView({model: collection.models[i], el: el});
                    }
