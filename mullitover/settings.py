@@ -24,7 +24,7 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'happydb',
         'USER': env['DOTCLOUD_DB_MYSQL_LOGIN'],
         'PASSWORD': env['DOTCLOUD_DB_MYSQL_PASSWORD'],
