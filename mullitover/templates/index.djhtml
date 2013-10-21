@@ -97,7 +97,7 @@
      }(document));
     </script>
 
-    <div class="container not-logged-in">
+    <div class="container not-logged-in wrap">
       <div class="center">
         <h1 class="title text-center">Mull It Over</h1>
         <h2 class="text-center">Pause, Think, Reflect</h2>
@@ -111,7 +111,7 @@
       </div>
     </div>
 
-    <div class="navbar navbar-inverse navbar-static-top logged-in" style="display:none;">
+    <div class="navbar navbar-inverse navbar-static-top logged-in wrap" style="display:none;">
       <div class="container">
         <div class="navbar-header logo">
           <a class="navbar-brand" href="#">Mull It Over</a>
@@ -125,7 +125,7 @@
     </div>
 
 
-    <div class="contianer logged-in" style="display:none;">
+    <div class="contianer logged-in wrap" style="display:none;">
       <div class="center">
         <div class="panel panel-default" id="new-status">
           <div class="panel-body new-post">
@@ -138,6 +138,12 @@
       </div>
     </div>
 
+
+    <div id="footer">
+      <div class="container">
+        <p class="text-muted credit">Design and built with love by <a href="http://twitter.com/etanz">@etanz</a> at the NYC Facebook Hackathon.</p>
+      </div>
+    </div>
 
 
 {% endblock %}
