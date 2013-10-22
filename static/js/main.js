@@ -163,9 +163,7 @@ StatusView = Backbone.View.extend({
                         $('.glyphicon-chevron-down').remove();
                         var revContainer = $('<div class="revision-history" />');
                         if (collection.models.length !== 0) {
-                            var connector = $('<span class="glyphicon glyphicon-chevron-down"></span>');
-                            // 20 em is hack again
-                            connector.css('margin-left', '20em');
+                            var connector = $('<div class="glyp-container"><span class="glyphicon glyphicon-chevron-down"></span></div>');
                             that.$el.append(connector);
                         }
                         that.$el.append(revContainer);
@@ -174,9 +172,7 @@ StatusView = Backbone.View.extend({
                             revContainer.append(el);
 
                             if (i !== collection.models.length - 1) {
-                                var connector = $('<span class="glyphicon glyphicon-chevron-down"></span>');
-                                // 20 em is hack again
-                                connector.css('margin-left', '20em');
+                                var connector = $('<div class="glyp-container"><span class="glyphicon glyphicon-chevron-down"></span></div>');
                                 revContainer.append(connector);
                             }
 

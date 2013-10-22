@@ -141,7 +141,7 @@
 
     <div id="footer">
       <div class="container">
-        <p class="text-muted credit">Design and built with love by <a href="http://twitter.com/etanz">@etanz</a> at the NYC Facebook Hackathon.</p>
+        <p class="text-muted credit">Design and built with love by <a href="http://twitter.com/etanz">@etanz</a> at the NYC Facebook Hackathon. <a href="//github.com/etanzapinsky/mullitover">Source on Github</a>.</p>
       </div>
     </div>
 

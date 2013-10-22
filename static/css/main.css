@@ -1,6 +1,7 @@
 body {
     background-image:url('/static/img/geometry.png');
     background-color: #eee;
+    min-width: 350px;
 }
 
 h1 {
@@ -80,10 +81,10 @@ textarea.panel-content {
     margin: 10px 0;
 }
 
-#plus {
-    /* hack */
-    padding-left: 19em;
-}
+/* #plus { */
+/*     /\* hack *\/ */
+/*     /\* padding-left: 19em; *\/ */
+/* } */
 
 p.clear {
     clear: both;
@@ -119,9 +120,15 @@ body {
 }
 
 .container .credit {
-  margin: 20px 0;
+  margin: 20px auto;
+  max-width: 600px;
+  padding: 0 15px;
 }
 
-/* .container .wrap { */
-/*   padding: 60px 0 0; */
-/* } */
+.new-post {
+    text-align: center;
+}
+
+.unit .glyp-container {
+    text-align: center;
+}
