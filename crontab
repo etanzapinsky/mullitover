@@ -1,1 +1,1 @@
-*/10 * * * * python mullitover/manage.py publish_statuses
+* */1 * * * python mullitover/manage.py publish_statuses

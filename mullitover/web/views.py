@@ -12,7 +12,6 @@ from web.models import FBAuth
 from web.models import status_to_dict
 from web.forms import StatusForm
 from web.forms import FBAuthForm
-from web.models import auth_to_dict
 
 def home(request):
     """ Simple Hello World View """
@@ -121,5 +120,5 @@ def post_fbauth(request):
         auth.expiry = form.cleaned_data['expiry']
         auth.authtoken = form.cleaned_data['authtoken']
         auth.save()
-        return HttpResponse(json.dumps(auth_to_dict(auth)))
+        return HttpResponse(json.dumps(True))
     return HttpResponse(json.dumps(False))
